@@ -1,5 +1,7 @@
 package com.salesianos.dam.gestion_de_recetas_y_categorias.controller;
 
+import java.util.List;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,6 +14,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.salesianos.dam.gestion_de_recetas_y_categorias.dto.EditCategoriaDto;
 import com.salesianos.dam.gestion_de_recetas_y_categorias.dto.GetCategoriaDetail;
+import com.salesianos.dam.gestion_de_recetas_y_categorias.dto.GetCategoriaList;
+import com.salesianos.dam.gestion_de_recetas_y_categorias.model.Categoria;
 import com.salesianos.dam.gestion_de_recetas_y_categorias.repository.CategoriaRepository;
 import com.salesianos.dam.gestion_de_recetas_y_categorias.service.CategoriaService;
 
@@ -47,6 +51,17 @@ public class CategoriaController {
     public ResponseEntity<GetCategoriaDetail> updateCategoria(@PathVariable Long id,@RequestBody EditCategoriaDto categoria){
         return ResponseEntity.ok(
             GetCategoriaDetail.of(categoriaService.updateCategoria(id, categoria))
+        );
+    }
+
+    @GetMapping 
+    public ResponseEntity<List<GetCategoriaList>> getAllCategorias(){
+        List<Categoria> result= categoriaService.getAllCategorias();
+        return ResponseEntity.ok(
+            result
+            .stream()
+            .map(GetCategoriaList::of)
+            .toList()
         );
     }
 }

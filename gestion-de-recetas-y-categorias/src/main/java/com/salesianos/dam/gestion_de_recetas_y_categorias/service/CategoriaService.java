@@ -1,5 +1,7 @@
 package com.salesianos.dam.gestion_de_recetas_y_categorias.service;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 import com.salesianos.dam.gestion_de_recetas_y_categorias.dto.EditCategoriaDto;
@@ -33,6 +35,14 @@ public class CategoriaService {
             return categoriaRepository.save(c);
         })
         .orElseThrow(() -> new CategoriaNotFoundException(id));
+    }
+
+    public List<Categoria> getAllCategorias(){
+        List<Categoria> result= categoriaRepository.findAll();
+        if(result.isEmpty()){
+            throw new CategoriaNotFoundException();
+        }
+        return result;
     }
 
 }
