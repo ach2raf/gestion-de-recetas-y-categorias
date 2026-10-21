@@ -25,5 +25,14 @@ public class CategoriaService {
         .orElseThrow(() -> new CategoriaNotFoundException(id));
     }
 
+    public Categoria updateCategoria(Long id,EditCategoriaDto editCategoriaDto){
+        return  categoriaRepository.findById(id)
+        .map(c -> {
+            c.setNombre(editCategoriaDto.nombre());
+            c.setDescripcion(editCategoriaDto.descripcion());
+            return categoriaRepository.save(c);
+        })
+        .orElseThrow(() -> new CategoriaNotFoundException(id));
+    }
 
 }
