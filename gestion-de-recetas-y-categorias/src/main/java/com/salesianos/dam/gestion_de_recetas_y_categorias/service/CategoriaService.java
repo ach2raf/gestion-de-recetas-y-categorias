@@ -45,4 +45,11 @@ public class CategoriaService {
         return result;
     }
 
+    public void deleteCategoria(Long id){
+        if(!categoriaRepository.existsById(id)){
+            throw new CategoriaNotFoundException(id);
+        }
+        categoriaRepository.deleteById(id);
+    }
+
 }
