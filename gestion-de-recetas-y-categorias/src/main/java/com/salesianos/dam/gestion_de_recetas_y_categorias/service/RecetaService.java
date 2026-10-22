@@ -1,11 +1,16 @@
 package com.salesianos.dam.gestion_de_recetas_y_categorias.service;
 
+import com.salesianos.dam.gestion_de_recetas_y_categorias.dto.AddIngredienteDto;
 import com.salesianos.dam.gestion_de_recetas_y_categorias.dto.EditRecetaDto;
 import com.salesianos.dam.gestion_de_recetas_y_categorias.exception.CategoriaNotFoundException;
+import com.salesianos.dam.gestion_de_recetas_y_categorias.exception.IngredienteAlreadyAddedException;
+import com.salesianos.dam.gestion_de_recetas_y_categorias.exception.IngredienteNotFoundException;
 import com.salesianos.dam.gestion_de_recetas_y_categorias.exception.RecetaNotFoundException;
 import com.salesianos.dam.gestion_de_recetas_y_categorias.model.Categoria;
+import com.salesianos.dam.gestion_de_recetas_y_categorias.model.Ingrediente;
 import com.salesianos.dam.gestion_de_recetas_y_categorias.model.Receta;
 import com.salesianos.dam.gestion_de_recetas_y_categorias.repository.CategoriaRepository;
+import com.salesianos.dam.gestion_de_recetas_y_categorias.repository.IngredienteRepository;
 import com.salesianos.dam.gestion_de_recetas_y_categorias.repository.RecetaRepository;
 import lombok.RequiredArgsConstructor;
 
@@ -18,6 +23,7 @@ import org.springframework.stereotype.Service;
 public class RecetaService {
     private final RecetaRepository recetaRepository;
     private final CategoriaRepository categoriaRepository;
+    private final IngredienteRepository ingredienteRepository;
 
     public Receta addReceta(EditRecetaDto editRecetaDto){
 
@@ -58,4 +64,20 @@ public class RecetaService {
         }
         recetaRepository.deleteById(id);
     }
+
+
+    public Receta addIngredienteToReceta(Long recetaId, AddIngredienteDto addIngredienteDto){
+    Receta receta = getRecetaById(recetaId);
+    Ingrediente ingrediente = ingredienteRepository.findById(addIngredienteDto.ingredienteId())
+            .orElseThrow(() -> new IngredienteNotFoundException(addIngredienteDto.ingredienteId()));
+
+    boolean yaAnadido = receta.getIngredientes().stream()
+            .anyMatch(i -> i.getId().equals(ingrediente.getId()));
+    if(yaAnadido){
+        throw new IngredienteAlreadyAddedException(recetaId, ingrediente.getId());
+    }
+
+    receta.getIngredientes().add(ingrediente);
+    return recetaRepository.save(receta);
+}
 }

@@ -1,5 +1,7 @@
 package com.salesianos.dam.gestion_de_recetas_y_categorias.dto;
 
+import java.util.List;
+
 import com.salesianos.dam.gestion_de_recetas_y_categorias.model.Dificultad;
 import com.salesianos.dam.gestion_de_recetas_y_categorias.model.Receta;
 
@@ -10,10 +12,11 @@ public record GetRecetaDetail(
         Dificultad dificultad,
         Long categoriaId,
         String categoriaNombre,
-        String categoriaDescripcion
+        String categoriaDescripcion,
+        List<GetIngredienteDetail> ingredientes
 
 ) {
-    public static GetRecetaDetail of(Receta c){
+    public static GetRecetaDetail of(Receta c) {
         return new GetRecetaDetail(
                 c.getId(),
                 c.getNombre(),
@@ -21,8 +24,11 @@ public record GetRecetaDetail(
                 c.getDificultad(),
                 c.getCategoria() != null ? c.getCategoria().getId() : null,
                 c.getCategoria() != null ? c.getCategoria().getNombre() : null,
-                c.getCategoria() != null ? c.getCategoria().getDescripcion() : null
+                c.getCategoria() != null ? c.getCategoria().getDescripcion() : null,
+                c.getIngredientes().stream()
+                        .map(GetIngredienteDetail::of)
+                        .toList()
 
-                );
+        );
     }
 }

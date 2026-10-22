@@ -11,22 +11,24 @@ import com.salesianos.dam.gestion_de_recetas_y_categorias.repository.Ingrediente
 
 import lombok.RequiredArgsConstructor;
 
-@Service 
+@Service
 @RequiredArgsConstructor
 
 public class IngredienteService {
 
     private final IngredienteRepository ingredienteRepository;
 
-    public Ingrediente addIngrediente(EditIngredienteDto editIngredienteDto){
+    public Ingrediente addIngrediente(EditIngredienteDto editIngredienteDto) {
         return ingredienteRepository.save(editIngredienteDto.to());
     }
 
-    public List<Ingrediente> getAllIngredientes(){
-    List<Ingrediente> result= ingredienteRepository.findAll();
-    if(result.isEmpty()){
-        throw new IngredienteNotFoundException();
+    public List<Ingrediente> getAllIngredientes() {
+        List<Ingrediente> result = ingredienteRepository.findAll();
+        if (result.isEmpty()) {
+            throw new IngredienteNotFoundException();
+        }
+        return result;
     }
-    return result;
-}
+
+    
 }
