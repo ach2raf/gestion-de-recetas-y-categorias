@@ -2,6 +2,7 @@ package com.salesianos.dam.gestion_de_recetas_y_categorias.service;
 
 import com.salesianos.dam.gestion_de_recetas_y_categorias.dto.EditRecetaDto;
 import com.salesianos.dam.gestion_de_recetas_y_categorias.exception.CategoriaNotFoundException;
+import com.salesianos.dam.gestion_de_recetas_y_categorias.exception.RecetaNotFoundException;
 import com.salesianos.dam.gestion_de_recetas_y_categorias.model.Categoria;
 import com.salesianos.dam.gestion_de_recetas_y_categorias.model.Receta;
 import com.salesianos.dam.gestion_de_recetas_y_categorias.repository.CategoriaRepository;
@@ -22,5 +23,10 @@ public class RecetaService {
                 .orElseThrow(() -> new CategoriaNotFoundException());
         c.setCategoria(categoria);
         return recetaRepository.save(c);
+    }
+
+    public Receta getRecetaById(Long id){
+        return recetaRepository.findById(id)
+                .orElseThrow(() -> new RecetaNotFoundException(id));
     }
 }

@@ -6,13 +6,11 @@ import com.salesianos.dam.gestion_de_recetas_y_categorias.dto.GetCategoriaDetail
 import com.salesianos.dam.gestion_de_recetas_y_categorias.dto.GetRecetaDetail;
 import com.salesianos.dam.gestion_de_recetas_y_categorias.service.RecetaService;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -30,4 +28,8 @@ public class RecetaController {
                 .body(GetRecetaDetail.of(recetaService.addReceta(receta)));
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<GetRecetaDetail> getRecetaById(@PathVariable @Min(value=1) Long id){
+        return ResponseEntity.ok(GetRecetaDetail.of(recetaService.getRecetaById(id)));
+    }
 }
