@@ -18,8 +18,8 @@ public class CategoriaService {
 
     private final CategoriaRepository categoriaRepository;
 
-    public Categoria addCategoria(EditCategoriaDto dto) {
-        return categoriaRepository.save(dto.to());
+    public Categoria addCategoria(Categoria categoria) {
+        return categoriaRepository.save(categoria);
     }
 
     public Categoria getCategoriaById(Long id){
