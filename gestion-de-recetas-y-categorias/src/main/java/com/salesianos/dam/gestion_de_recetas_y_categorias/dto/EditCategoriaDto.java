@@ -7,7 +7,6 @@ import jakarta.validation.constraints.Size;
 
 public record EditCategoriaDto(
         String nombre,
-
         String descripcion
 ) {
 
