@@ -9,6 +9,7 @@ import com.salesianos.dam.gestion_de_recetas_y_categorias.exception.RecetaNotFou
 import com.salesianos.dam.gestion_de_recetas_y_categorias.model.Categoria;
 import com.salesianos.dam.gestion_de_recetas_y_categorias.model.Ingrediente;
 import com.salesianos.dam.gestion_de_recetas_y_categorias.model.Receta;
+import com.salesianos.dam.gestion_de_recetas_y_categorias.model.RecetaIngrediente;
 import com.salesianos.dam.gestion_de_recetas_y_categorias.repository.CategoriaRepository;
 import com.salesianos.dam.gestion_de_recetas_y_categorias.repository.IngredienteRepository;
 import com.salesianos.dam.gestion_de_recetas_y_categorias.repository.RecetaRepository;
@@ -72,12 +73,19 @@ public class RecetaService {
             .orElseThrow(() -> new IngredienteNotFoundException(addIngredienteDto.ingredienteId()));
 
     boolean yaAnadido = receta.getIngredientes().stream()
-            .anyMatch(i -> i.getId().equals(ingrediente.getId()));
+            .anyMatch(ri -> ri.getIngrediente().getId().equals(ingrediente.getId()));
     if(yaAnadido){
         throw new IngredienteAlreadyAddedException(recetaId, ingrediente.getId());
     }
 
-    receta.getIngredientes().add(ingrediente);
+    receta.getIngredientes().add(
+            RecetaIngrediente.builder()
+                    .receta(receta)
+                    .ingrediente(ingrediente)
+                    .cantidad(addIngredienteDto.cantidad())
+                    .unidad(addIngredienteDto.unidad())
+                    .build()
+    );
     return recetaRepository.save(receta);
 }
 }

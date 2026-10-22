@@ -13,9 +13,8 @@ public record GetRecetaDetail(
         Long categoriaId,
         String categoriaNombre,
         String categoriaDescripcion,
-        List<GetIngredienteDetail> ingredientes
-
-) {
+        List<GetIngredienteEnReceta> ingredientes
+    ) {
     public static GetRecetaDetail of(Receta c) {
         return new GetRecetaDetail(
                 c.getId(),
@@ -26,7 +25,7 @@ public record GetRecetaDetail(
                 c.getCategoria() != null ? c.getCategoria().getNombre() : null,
                 c.getCategoria() != null ? c.getCategoria().getDescripcion() : null,
                 c.getIngredientes().stream()
-                        .map(GetIngredienteDetail::of)
+                        .map(GetIngredienteEnReceta::of)
                         .toList()
 
         );

@@ -30,8 +30,7 @@ public class Receta {
     @ManyToOne
     private Categoria categoria;
 
-    @ManyToMany
-    @JoinTable(name = "receta_ingrediente", joinColumns = @JoinColumn(name = "receta_id"), inverseJoinColumns = @JoinColumn(name = "ingrediente_id"))
+    @OneToMany(mappedBy = "receta", cascade = CascadeType.ALL, orphanRemoval = true)
     @Builder.Default
-    private List<Ingrediente> ingredientes = new ArrayList<>();
+    private List<RecetaIngrediente> ingredientes = new ArrayList<>();
 }
