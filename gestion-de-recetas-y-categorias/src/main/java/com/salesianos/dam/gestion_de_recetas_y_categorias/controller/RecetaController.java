@@ -3,11 +3,18 @@ package com.salesianos.dam.gestion_de_recetas_y_categorias.controller;
 import com.salesianos.dam.gestion_de_recetas_y_categorias.dto.EditCategoriaDto;
 import com.salesianos.dam.gestion_de_recetas_y_categorias.dto.EditRecetaDto;
 import com.salesianos.dam.gestion_de_recetas_y_categorias.dto.GetCategoriaDetail;
+import com.salesianos.dam.gestion_de_recetas_y_categorias.dto.GetCategoriaList;
 import com.salesianos.dam.gestion_de_recetas_y_categorias.dto.GetRecetaDetail;
+import com.salesianos.dam.gestion_de_recetas_y_categorias.dto.GetRecetaList;
+import com.salesianos.dam.gestion_de_recetas_y_categorias.model.Categoria;
+import com.salesianos.dam.gestion_de_recetas_y_categorias.model.Receta;
 import com.salesianos.dam.gestion_de_recetas_y_categorias.service.RecetaService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
+
+import java.util.List;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -37,6 +44,17 @@ public class RecetaController {
     public ResponseEntity<GetRecetaDetail> updateReceta(@PathVariable Long id,@RequestBody EditRecetaDto receta){
         return ResponseEntity.ok(
                 GetRecetaDetail.of(recetaService.updateReceta(id, receta))
+        );
+    }
+
+    @GetMapping 
+    public ResponseEntity<List<GetRecetaList>> getAllRecetas(){
+        List<Receta> result= recetaService.getAllRecetas();
+        return ResponseEntity.ok(
+            result
+            .stream()
+            .map(GetRecetaList::of)
+            .toList()
         );
     }
 }

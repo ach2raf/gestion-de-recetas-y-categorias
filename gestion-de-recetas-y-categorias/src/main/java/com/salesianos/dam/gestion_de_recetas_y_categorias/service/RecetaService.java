@@ -8,6 +8,9 @@ import com.salesianos.dam.gestion_de_recetas_y_categorias.model.Receta;
 import com.salesianos.dam.gestion_de_recetas_y_categorias.repository.CategoriaRepository;
 import com.salesianos.dam.gestion_de_recetas_y_categorias.repository.RecetaRepository;
 import lombok.RequiredArgsConstructor;
+
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 @Service
@@ -39,5 +42,13 @@ public class RecetaService {
                     return recetaRepository.save(r);
                 })
                 .orElseThrow(() -> new RecetaNotFoundException(id));
+    }
+
+    public List<Receta> getAllRecetas(){
+        List<Receta> result= recetaRepository.findAll();
+        if(result.isEmpty()){
+            throw new RecetaNotFoundException();
+        }
+        return result;
     }
 }
