@@ -29,4 +29,15 @@ public class RecetaService {
         return recetaRepository.findById(id)
                 .orElseThrow(() -> new RecetaNotFoundException(id));
     }
+
+    public Receta updateReceta(Long id,EditRecetaDto editRecetaDto){
+        return recetaRepository.findById(id)
+                .map(r -> {
+                    r.setNombre(editRecetaDto.nombre());
+                    r.setTiempoPreparacionMin(editRecetaDto.tiempoPreparacionMin());
+                    r.setDificultad(editRecetaDto.dificultad());
+                    return recetaRepository.save(r);
+                })
+                .orElseThrow(() -> new RecetaNotFoundException(id));
+    }
 }

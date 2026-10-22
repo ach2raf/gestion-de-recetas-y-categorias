@@ -32,4 +32,11 @@ public class RecetaController {
     public ResponseEntity<GetRecetaDetail> getRecetaById(@PathVariable @Min(value=1) Long id){
         return ResponseEntity.ok(GetRecetaDetail.of(recetaService.getRecetaById(id)));
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<GetRecetaDetail> updateReceta(@PathVariable Long id,@RequestBody EditRecetaDto receta){
+        return ResponseEntity.ok(
+                GetRecetaDetail.of(recetaService.updateReceta(id, receta))
+        );
+    }
 }
