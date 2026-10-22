@@ -57,4 +57,12 @@ public class RecetaController {
             .toList()
         );
     }
+
+
+    @DeleteMapping ("/{id}")
+    public ResponseEntity<Void> deleteReceta(@PathVariable Long id){
+        recetaService.deleteReceta(id);
+        return ResponseEntity.noContent().build();
+    }
+
 }

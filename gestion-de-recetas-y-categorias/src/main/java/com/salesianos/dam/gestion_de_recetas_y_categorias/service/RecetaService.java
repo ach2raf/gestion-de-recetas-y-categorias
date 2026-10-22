@@ -51,4 +51,11 @@ public class RecetaService {
         }
         return result;
     }
+
+    public void deleteReceta(Long id){
+        if(!recetaRepository.existsById(id)){
+            throw new RecetaNotFoundException(id);
+        }
+        recetaRepository.deleteById(id);
+    }
 }
