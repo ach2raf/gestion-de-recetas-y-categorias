@@ -2,10 +2,7 @@ package com.salesianos.dam.gestion_de_recetas_y_categorias.service;
 
 import com.salesianos.dam.gestion_de_recetas_y_categorias.dto.AddIngredienteDto;
 import com.salesianos.dam.gestion_de_recetas_y_categorias.dto.EditRecetaDto;
-import com.salesianos.dam.gestion_de_recetas_y_categorias.exception.CategoriaNotFoundException;
-import com.salesianos.dam.gestion_de_recetas_y_categorias.exception.IngredienteAlreadyAddedException;
-import com.salesianos.dam.gestion_de_recetas_y_categorias.exception.IngredienteNotFoundException;
-import com.salesianos.dam.gestion_de_recetas_y_categorias.exception.RecetaNotFoundException;
+import com.salesianos.dam.gestion_de_recetas_y_categorias.exception.*;
 import com.salesianos.dam.gestion_de_recetas_y_categorias.model.Categoria;
 import com.salesianos.dam.gestion_de_recetas_y_categorias.model.Ingrediente;
 import com.salesianos.dam.gestion_de_recetas_y_categorias.model.Receta;
@@ -28,6 +25,7 @@ public class RecetaService {
 
     public Receta addReceta(EditRecetaDto editRecetaDto){
 
+        validateTiempo(editRecetaDto.tiempoPreparacionMin());
         Receta c=editRecetaDto.to();
         Categoria categoria=categoriaRepository.findById(editRecetaDto.categoriaId())
                 .orElseThrow(() -> new CategoriaNotFoundException());
@@ -43,6 +41,7 @@ public class RecetaService {
     public Receta updateReceta(Long id,EditRecetaDto editRecetaDto){
         return recetaRepository.findById(id)
                 .map(r -> {
+                    validateTiempo(editRecetaDto.tiempoPreparacionMin());
                     r.setNombre(editRecetaDto.nombre());
                     r.setTiempoPreparacionMin(editRecetaDto.tiempoPreparacionMin());
                     r.setDificultad(editRecetaDto.dificultad());
@@ -88,4 +87,9 @@ public class RecetaService {
     );
     return recetaRepository.save(receta);
 }
+    private void validateTiempo(Integer tiempo){
+        if(tiempo == null || tiempo <= 0){
+            throw new TimeInvalidException(tiempo);
+        }
+    }
 }

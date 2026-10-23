@@ -65,7 +65,7 @@ public class RecetaController {
     @PostMapping("/{recetaId}/ingredientes")
     public ResponseEntity<GetRecetaDetail> addIngredienteToReceta(
             @PathVariable Long recetaId,
-            @RequestBody AddIngredienteDto addIngredienteDto) {
+            @Valid @RequestBody AddIngredienteDto addIngredienteDto) {
         return ResponseEntity.status(201)
                 .body(GetRecetaDetail.of(recetaService.addIngredienteToReceta(recetaId, addIngredienteDto)));
     }

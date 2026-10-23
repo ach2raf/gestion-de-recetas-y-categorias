@@ -2,6 +2,7 @@ package com.salesianos.dam.gestion_de_recetas_y_categorias.controller;
 
 import java.util.List;
 
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,7 +28,7 @@ public class IngredienteController {
     private final IngredienteService ingredienteService;
 
     @PostMapping
-    public ResponseEntity<GetIngredienteDetail> addIngrediente(@RequestBody EditIngredienteDto ingrediente) {
+    public ResponseEntity<GetIngredienteDetail> addIngrediente(@Valid @RequestBody EditIngredienteDto ingrediente) {
         return ResponseEntity.status(201)
                 .body(GetIngredienteDetail.of(ingredienteService.addIngrediente(ingrediente)));
     }
