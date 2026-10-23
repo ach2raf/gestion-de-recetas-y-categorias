@@ -1,0 +1,356 @@
+
+### POST Crear categoría (201)
+POST http://localhost:8080/api/v1/categorias
+Content-Type: application/json
+
+{
+  "nombre": "Postres",
+  "descripcion": "Dulces y postres"
+}
+
+### POST Crear otra categoría (201)
+POST http://localhost:8080/api/v1/categorias
+Content-Type: application/json
+
+{
+  "nombre": "Entrantes",
+  "descripcion": "Para empezar"
+}
+
+### POST Crear categoría - Error 1: nombre vacío (400)
+POST http://localhost:8080/api/v1/categorias
+Content-Type: application/json
+
+{
+  "nombre": "",
+  "descripcion": "Sin nombre"
+}
+
+### POST Crear categoría - Error 2: nombre null (400)
+POST http://localhost:8080/api/v1/categorias
+Content-Type: application/json
+
+{
+  "nombre": null,
+  "descripcion": "Sin nombre"
+}
+
+### POST Crear categoría - Error 3: nombre duplicado (409)
+POST http://localhost:8080/api/v1/categorias
+Content-Type: application/json
+
+{
+  "nombre": "Postres",
+  "descripcion": "Repetida"
+}
+
+### GET Obtener todas las categorías (200)
+GET http://localhost:8080/api/v1/categorias
+
+### GET Obtener categoría id 1 (200)
+GET http://localhost:8080/api/v1/categorias/1
+
+### GET Obtener categoría inexistente (404)
+GET http://localhost:8080/api/v1/categorias/999
+
+### GET Obtener categoría con id no válido (400)
+GET http://localhost:8080/api/v1/categorias/0
+
+### PUT Modificar categoría id 1 (200)
+PUT http://localhost:8080/api/v1/categorias/1
+Content-Type: application/json
+
+{
+  "nombre": "Postres",
+  "descripcion": "Dulces, tartas y postres"
+}
+
+### PUT Modificar categoría - Error: nombre vacío (400)
+PUT http://localhost:8080/api/v1/categorias/1
+Content-Type: application/json
+
+{
+  "nombre": "",
+  "descripcion": "Sin nombre"
+}
+
+### PUT Modificar categoría inexistente (404)
+PUT http://localhost:8080/api/v1/categorias/999
+Content-Type: application/json
+
+{
+  "nombre": "Fantasma",
+  "descripcion": "No existe"
+}
+
+
+### POST Crear ingrediente Harina (201)
+POST http://localhost:8080/api/v1/ingredientes
+Content-Type: application/json
+
+{
+  "nombre": "Harina"
+}
+
+### POST Crear ingrediente Huevos (201)
+POST http://localhost:8080/api/v1/ingredientes
+Content-Type: application/json
+
+{
+  "nombre": "Huevos"
+}
+
+### POST Crear ingrediente - Error 1: nombre vacío (400)
+POST http://localhost:8080/api/v1/ingredientes
+Content-Type: application/json
+
+{
+  "nombre": ""
+}
+
+### POST Crear ingrediente - Error 2: nombre duplicado (409)
+POST http://localhost:8080/api/v1/ingredientes
+Content-Type: application/json
+
+{
+  "nombre": "Harina"
+}
+
+### GET Obtener todos los ingredientes (200)
+GET http://localhost:8080/api/v1/ingredientes
+
+### POST Crear receta (201)
+POST http://localhost:8080/api/v1/recetas
+Content-Type: application/json
+
+{
+  "nombre": "Tarta de manzana",
+  "tiempoPreparacionMin": 60,
+  "dificultad": "MEDIA",
+  "categoriaId": 1
+}
+
+### POST Crear receta - Error 1: nombre vacío (400)
+POST http://localhost:8080/api/v1/recetas
+Content-Type: application/json
+
+{
+  "nombre": "",
+  "tiempoPreparacionMin": 60,
+  "dificultad": "MEDIA",
+  "categoriaId": 1
+}
+
+### POST Crear receta - Error 2: tiempo 0 (TiempoInvalidoException) (400)
+POST http://localhost:8080/api/v1/recetas
+Content-Type: application/json
+
+{
+  "nombre": "Receta tiempo cero",
+  "tiempoPreparacionMin": 0,
+  "dificultad": "FACIL",
+  "categoriaId": 1
+}
+
+### POST Crear receta - Error 3: tiempo null (400)
+POST http://localhost:8080/api/v1/recetas
+Content-Type: application/json
+
+{
+  "nombre": "Receta sin tiempo",
+  "tiempoPreparacionMin": null,
+  "dificultad": "FACIL",
+  "categoriaId": 1
+}
+
+### POST Crear receta - Error 4: dificultad desconocida (400)
+POST http://localhost:8080/api/v1/recetas
+Content-Type: application/json
+
+{
+  "nombre": "Receta rara",
+  "tiempoPreparacionMin": 10,
+  "dificultad": "IMPOSIBLE",
+  "categoriaId": 1
+}
+
+### POST Crear receta - Error 5: categoriaId null (400)
+POST http://localhost:8080/api/v1/recetas
+Content-Type: application/json
+
+{
+  "nombre": "Receta sin categoría",
+  "tiempoPreparacionMin": 10,
+  "dificultad": "FACIL",
+  "categoriaId": null
+}
+
+### POST Crear receta - Error 6: categoría inexistente (404)
+POST http://localhost:8080/api/v1/recetas
+Content-Type: application/json
+
+{
+  "nombre": "Receta fantasma",
+  "tiempoPreparacionMin": 10,
+  "dificultad": "FACIL",
+  "categoriaId": 999
+}
+
+### POST Crear receta - Error 7: nombre duplicado (@NombreRecetaUnico) (400)
+POST http://localhost:8080/api/v1/recetas
+Content-Type: application/json
+
+{
+  "nombre": "Tarta de manzana",
+  "tiempoPreparacionMin": 30,
+  "dificultad": "FACIL",
+  "categoriaId": 1
+}
+
+### GET Obtener todas las recetas (200)
+GET http://localhost:8080/api/v1/recetas
+
+### GET Obtener receta id 1 (200)
+GET http://localhost:8080/api/v1/recetas/1
+
+### GET Obtener receta inexistente (404)
+GET http://localhost:8080/api/v1/recetas/999
+
+### GET Obtener receta con id no válido (400)
+GET http://localhost:8080/api/v1/recetas/0
+
+### PUT Modificar receta (mismo nombre, otra categoría) (200)
+PUT http://localhost:8080/api/v1/recetas/1
+Content-Type: application/json
+
+{
+  "nombre": "Tarta de manzana",
+  "tiempoPreparacionMin": 75,
+  "dificultad": "DIFICIL",
+  "categoriaId": 2
+}
+
+### PUT Modificar receta - Error 1: tiempo negativo (TiempoInvalidoException) (400)
+PUT http://localhost:8080/api/v1/recetas/1
+Content-Type: application/json
+
+{
+  "nombre": "Tarta de manzana",
+  "tiempoPreparacionMin": -5,
+  "dificultad": "MEDIA",
+  "categoriaId": 1
+}
+
+### PUT Modificar receta - Error 2: categoría inexistente (404)
+PUT http://localhost:8080/api/v1/recetas/1
+Content-Type: application/json
+
+{
+  "nombre": "Tarta de manzana",
+  "tiempoPreparacionMin": 60,
+  "dificultad": "MEDIA",
+  "categoriaId": 999
+}
+
+### PUT Modificar receta inexistente (404)
+PUT http://localhost:8080/api/v1/recetas/999
+Content-Type: application/json
+
+{
+  "nombre": "Receta fantasma",
+  "tiempoPreparacionMin": 60,
+  "dificultad": "MEDIA",
+  "categoriaId": 1
+}
+
+
+### POST Añadir Harina a la receta 1 (201)
+POST http://localhost:8080/api/v1/recetas/1/ingredientes
+Content-Type: application/json
+
+{
+  "ingredienteId": 1,
+  "cantidad": 200,
+  "unidad": "GRAMOS"
+}
+
+### POST Añadir Huevos a la receta 1 (201)
+POST http://localhost:8080/api/v1/recetas/1/ingredientes
+Content-Type: application/json
+
+{
+  "ingredienteId": 2,
+  "cantidad": 3,
+  "unidad": "UNIDAD"
+}
+
+### POST Añadir ingrediente - Error 1: ya añadido (IngredienteYaAnadidoException) (409)
+POST http://localhost:8080/api/v1/recetas/1/ingredientes
+Content-Type: application/json
+
+{
+  "ingredienteId": 1,
+  "cantidad": 100,
+  "unidad": "GRAMOS"
+}
+
+### POST Añadir ingrediente - Error 2: ingrediente inexistente (404)
+POST http://localhost:8080/api/v1/recetas/1/ingredientes
+Content-Type: application/json
+
+{
+  "ingredienteId": 999,
+  "cantidad": 1,
+  "unidad": "UNIDAD"
+}
+
+### POST Añadir ingrediente - Error 3: receta inexistente (404)
+POST http://localhost:8080/api/v1/recetas/999/ingredientes
+Content-Type: application/json
+
+{
+  "ingredienteId": 1,
+  "cantidad": 1,
+  "unidad": "UNIDAD"
+}
+
+### POST Añadir ingrediente - Error 4: cantidad negativa (400)
+POST http://localhost:8080/api/v1/recetas/1/ingredientes
+Content-Type: application/json
+
+{
+  "ingredienteId": 2,
+  "cantidad": -1,
+  "unidad": "UNIDAD"
+}
+
+### POST Añadir ingrediente - Error 5: unidad null (400)
+POST http://localhost:8080/api/v1/recetas/1/ingredientes
+Content-Type: application/json
+
+{
+  "ingredienteId": 2,
+  "cantidad": 1,
+  "unidad": null
+}
+
+### GET Obtener receta id 1 con sus ingredientes (200)
+GET http://localhost:8080/api/v1/recetas/1
+
+### DELETE Borrar categoría 2, que tiene una receta (409)
+DELETE http://localhost:8080/api/v1/categorias/2
+
+### DELETE Borrar receta 1 (204)
+DELETE http://localhost:8080/api/v1/recetas/1
+
+### DELETE Borrar receta 1 otra vez (404)
+DELETE http://localhost:8080/api/v1/recetas/1
+
+### DELETE Borrar categoría 2, ya sin recetas (204)
+DELETE http://localhost:8080/api/v1/categorias/2
+
+### DELETE Borrar categoría 1 (204)
+DELETE http://localhost:8080/api/v1/categorias/1
+
+### DELETE Borrar categoría con id no válido (400)
+DELETE http://localhost:8080/api/v1/categorias/0
