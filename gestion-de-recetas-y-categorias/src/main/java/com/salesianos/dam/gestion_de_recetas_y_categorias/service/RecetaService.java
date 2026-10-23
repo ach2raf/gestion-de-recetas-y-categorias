@@ -42,9 +42,14 @@ public class RecetaService {
         return recetaRepository.findById(id)
                 .map(r -> {
                     validateTiempo(editRecetaDto.tiempoPreparacionMin());
+
+                    Categoria categoria = categoriaRepository.findById(editRecetaDto.categoriaId())
+                            .orElseThrow(() -> new CategoriaNotFoundException(editRecetaDto.categoriaId()));
+
                     r.setNombre(editRecetaDto.nombre());
                     r.setTiempoPreparacionMin(editRecetaDto.tiempoPreparacionMin());
                     r.setDificultad(editRecetaDto.dificultad());
+                    r.setCategoria(categoria);
                     return recetaRepository.save(r);
                 })
                 .orElseThrow(() -> new RecetaNotFoundException(id));

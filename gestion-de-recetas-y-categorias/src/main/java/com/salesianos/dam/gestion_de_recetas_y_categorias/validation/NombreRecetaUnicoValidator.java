@@ -13,7 +13,7 @@ public class NombreRecetaUnicoValidator implements ConstraintValidator<NombreRec
 
     @Override
     public boolean isValid(String nombre, ConstraintValidatorContext context) {
-        return StringUtils.hasText(nombre) && !recetaRepository.existsByName(nombre);
+        return StringUtils.hasText(nombre) && !recetaRepository.existsByNombreIgnoreCase(nombre);
 
     }
 }
